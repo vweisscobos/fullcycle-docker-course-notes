@@ -1,0 +1,35 @@
+# define a versão que será utilizada
+version: '3'
+
+# define os serviços que devem subir. cada serviço é um container.
+services:
+  node:
+    # define como fazer a build de uma imagem
+    build:
+      # define onde está o dockerfile
+      context: ./node
+    # define o nome da imagem a ser gerada
+    image: vweisscobos/node
+    # nome do container. substitui argumento --name do cli.
+    container_name: node
+    # netowrks as quais o container estará conectado. substitiu o argumento --network do cli.
+    networks:
+      - app
+
+  nginx:
+    build:
+      context: ./nginx
+    image: vweisscobos/nginx
+    container_name: nginx
+    networks:
+      - app
+    # mapeamento de portas. substitui o argumento -p do cli.
+    ports:
+      - "8080:80"
+
+# define networks disponíveis
+networks:
+  # nome da network
+  app:
+    # tipo de network
+    driver: "bridge"
