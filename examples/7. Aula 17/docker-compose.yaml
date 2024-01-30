@@ -1,0 +1,29 @@
+# define a versão que será utilizada
+version: '3'
+
+# define os serviços que devem subir. cada serviço é um container.
+services:
+  node:
+    # nome da imagem do container
+    image: vweisscobos/node:prod
+    # nome do container. substitui argumento --name do cli.
+    container_name: node
+    # netowrks as quais o container estará conectado. substitiu o argumento --network do cli.
+    networks:
+      - app
+
+  nginx:
+    image: vweisscobos/nginx:prod
+    container_name: nginx
+    networks:
+      - app
+    # mapeamento de portas. substitui o argumento -p do cli.
+    ports:
+      - "8080:80"
+
+# define networks disponíveis
+networks:
+  # nome da network
+  app:
+    # tipo de network
+    driver: "bridge"
