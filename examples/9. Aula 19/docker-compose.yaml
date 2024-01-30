@@ -1,0 +1,32 @@
+# define a versão que será utilizada
+version: '3'
+
+# define os serviços que devem subir. cada serviço é um container.
+services:
+
+  db:
+    image: mysql:5.7
+    command: --innodb-use-native-aio=0
+    container_name: db
+    # configura restart se o serviço cair
+    restart: always
+    # permite interação com o container
+    tty: true
+    # tudo que for gravado no banco será também gravado dentro da pasta mysql
+    volumes:
+      - ./mysql:/var/lib/mysql
+    # configura variáveis de ambiente
+    environment:
+      - MYSQL_DATABASE=nodedb
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ROOT=root
+    networks:
+      - node-network
+
+
+# define networks disponíveis
+networks:
+  # nome da network
+  node-network:
+    # tipo de network
+    driver: "bridge"
